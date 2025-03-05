@@ -1,32 +1,33 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Toaster, toast } from "react-hot-toast";
+import { useState } from 'react';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Toaster, toast } from 'react-hot-toast';
 
 export default function LoginPage() {
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const res = await signIn("credentials", {
+    const res = await signIn('credentials', {
       redirect: false,
       username: name,
       password,
     });
 
     if (res?.ok) {
-      toast.success("Connecté !");
-      router.push("/");
+      toast.success('Connecté !');
+      router.push('/');
     } else {
-      toast.error("Une erreur est survenue.");
-    }  };
+      toast.error('Une erreur est survenue.');
+    }
+  };
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">

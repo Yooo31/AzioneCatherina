@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useParams } from "next/navigation";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Toaster, toast } from "react-hot-toast";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Toaster, toast } from 'react-hot-toast';
 
 export default function CreateUserPage() {
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const router = useRouter();
   const params = useParams();
   const username = params.username as string;
@@ -18,18 +18,18 @@ export default function CreateUserPage() {
     e.preventDefault();
 
     const response = await fetch(`/api/compte/${username}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ password, confirmPassword }),
     });
 
     const data = await response.json();
 
     if (response.ok) {
-      toast.success("Compte créé avec succès !");
-      setTimeout(() => router.push("/auth"), 2000);
+      toast.success('Compte créé avec succès !');
+      setTimeout(() => router.push('/auth'), 2000);
     } else {
-      toast.error(data.error || "Une erreur est survenue.");
+      toast.error(data.error || 'Une erreur est survenue.');
     }
   };
 
@@ -52,7 +52,9 @@ export default function CreateUserPage() {
           onChange={(e) => setConfirmPassword(e.target.value)}
           required
         />
-        <Button type="submit" className="w-full">Créer le compte</Button>
+        <Button type="submit" className="w-full">
+          Créer le compte
+        </Button>
       </form>
     </div>
   );
