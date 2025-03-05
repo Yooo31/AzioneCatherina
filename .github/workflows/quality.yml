@@ -34,7 +34,7 @@ jobs:
         run: pnpm install
 
       - name: 🔎 Run ESLint
-        run: pnpx eslint eslint 'app/**/*.{ts,tsx}'
+        run: pnpx eslint 'app/**/*.{ts,tsx}'
 
       - name: 🎨 Run Prettier
         run: pnpx prettier --write --check .
