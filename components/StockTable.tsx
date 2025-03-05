@@ -1,10 +1,10 @@
 'use client';
 
-import { ColumnDef, ColumnFiltersState, getFilteredRowModel } from '@tanstack/react-table';
+import { ColumnDef, ColumnFiltersState } from '@tanstack/react-table';
 import { useEffect, useState } from 'react';
 import { DataTable } from '@/components/ui/data-table';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { StockForm } from '@/components/StockForm';
 import {
   Select,
   SelectContent,
@@ -13,7 +13,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
-// 🔹 Type pour un stock
 type Stock = {
   id: string;
   productName: string;
@@ -23,30 +22,7 @@ type Stock = {
   updatedByUser?: { username: string } | null;
 };
 
-// 🔹 Définition des colonnes
-const columns: ColumnDef<Stock>[] = [
-  { accessorKey: 'productName', header: 'Nom du produit' },
-  { accessorKey: 'productType', header: 'Type' },
-  { accessorKey: 'quantity', header: 'Quantité' },
-  {
-    accessorKey: 'updatedAt',
-    header: 'Dernière mise à jour',
-    cell: ({ getValue }) => new Date(getValue<string>()).toLocaleString(),
-  },
-  {
-    accessorKey: 'updatedByUser.username',
-    header: 'Modifié par',
-    cell: ({ row }) => row.original.updatedByUser?.username || 'Inconnu',
-  },
-  {
-    id: 'actions',
-    header: 'Actions',
-    cell: ({ row }) => <Button variant="outline">Modifier</Button>,
-  },
-];
-
-// 🔹 Composant principal avec filtres
-export function StockTable() {
+export function StockTable({ userId }: { userId: string }) {
   const [stocks, setStocks] = useState<Stock[]>([]);
   const [filters, setFilters] = useState<ColumnFiltersState>([]);
   const [search, setSearch] = useState('');
@@ -59,11 +35,32 @@ export function StockTable() {
       .catch((error) => console.error('Erreur de chargement', error));
   }, []);
 
+  const columns: ColumnDef<Stock>[] = [
+    { accessorKey: 'productName', header: 'Nom du produit' },
+    { accessorKey: 'productType', header: 'Type' },
+    { accessorKey: 'quantity', header: 'Quantité' },
+    {
+      accessorKey: 'updatedAt',
+      header: 'Dernière mise à jour',
+      cell: ({ getValue }) => new Date(getValue<string>()).toLocaleString(),
+    },
+    {
+      accessorKey: 'updatedByUser.username',
+      header: 'Modifié par',
+      cell: ({ row }) => row.original.updatedByUser?.username || 'Inconnu',
+    },
+    {
+      id: 'actions',
+      header: 'Actions',
+      cell: ({ row }) => (
+        <StockForm stock={row.original} userId={userId} />
+      ),
+    },
+  ];
+
   return (
     <div className="space-y-4">
-      {/* 🔹 Filtres */}
       <div className="flex gap-4">
-        {/* Recherche par nom */}
         <Input
           placeholder="Rechercher un produit..."
           value={search}
@@ -77,7 +74,6 @@ export function StockTable() {
           }}
         />
 
-        {/* Filtre par type */}
         <Select
           value={selectedType}
           onValueChange={(value) => {
@@ -101,7 +97,6 @@ export function StockTable() {
         </Select>
       </div>
 
-      {/* 🔹 Tableau des stocks */}
       <DataTable columns={columns} data={stocks} filters={filters} />
     </div>
   );

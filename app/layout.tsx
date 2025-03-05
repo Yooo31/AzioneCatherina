@@ -1,5 +1,6 @@
 'use client';
 
+import { Toaster } from 'react-hot-toast';
 import './globals.css';
 import { SessionProvider } from 'next-auth/react';
 
@@ -13,7 +14,10 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body>
-        <SessionProvider session={session}>{children}</SessionProvider>
+        <SessionProvider session={session}>
+          {children}
+          <Toaster position="top-right" />
+        </SessionProvider>
       </body>
     </html>
   );
