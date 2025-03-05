@@ -39,7 +39,7 @@ export async function POST(request: Request, context: { params: Promise<{ userna
     });
 
     return NextResponse.json({ message: 'Compte créé avec succès !' });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('❌ ERREUR API :', error);
     return NextResponse.json({ error: 'Une erreur inattendue est survenue.' }, { status: 500 });
   }

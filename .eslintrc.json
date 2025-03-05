@@ -15,5 +15,6 @@
     "import/prefer-default-export": "off",
     "@typescript-eslint/explicit-function-return-type": "warn",
     "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
-  }
+  },
+  "ignores": ["node_modules", "dist", "build", ".next"]
 }
