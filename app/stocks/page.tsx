@@ -1,11 +1,10 @@
-'use client';
+import { StockTable } from "@/components/StockTable";
 
-import { useSession } from 'next-auth/react';
-
-export default function Stocks() {
-  const { data: session } = useSession();
-
+export default function StockPage() {
   return (
-    <div>{session ? <p>Utilisateur connecté : {session.user?.name}</p> : <p>Pas connecté</p>}</div>
+    <main className="p-6">
+      <h1 className="text-2xl font-bold mb-4">Gestion des stocks</h1>
+      <StockTable />
+    </main>
   );
 }

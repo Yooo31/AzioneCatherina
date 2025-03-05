@@ -47,7 +47,7 @@ export default function LoginPage() {
           onChange={(e) => setPassword(e.target.value)}
         />
         <Button type="submit" className="w-full">
-          Créer le compte
+          Connexion
         </Button>
       </form>
     </div>
