@@ -27,7 +27,9 @@ jobs:
           cache: 'pnpm'
 
       - name: 🔧 Install pnpm
-        run: npm install -g pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7
 
       - name: 📥 Install dependencies
         run: pnpm install --frozen-lockfile
