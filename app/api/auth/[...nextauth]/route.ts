@@ -35,7 +35,7 @@ const authOptions = {
         }
 
         const passwordMatch = await bcrypt.compare(credentials.password, user.password);
-        console.log("mdps : " + passwordMatch);
+        console.log('mdps : ' + passwordMatch);
 
         if (!passwordMatch) {
           console.error('Erreur: Mot de passe invalide');
