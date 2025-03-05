@@ -8,7 +8,7 @@ on:
 
 permissions:
   contents: write # Autoriser Semantic Release à créer des tags et releases
-  issues: write   # Pour créer des issues en cas de problème
+  issues: write # Pour créer des issues en cas de problème
   pull-requests: write # Pour ajouter des commentaires sur les PRs si besoin
 
 jobs:

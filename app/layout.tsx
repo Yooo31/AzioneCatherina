@@ -1,20 +1,18 @@
 'use client';
 
-import { Session } from 'next-auth';
+import { ReactNode } from 'react';
 import './globals.css';
 import { SessionProvider } from 'next-auth/react';
 
-export default function RootLayout({
-  children,
-  session,
-}: Readonly<{
-  children: React.ReactNode;
-  session?: Session;
-}>) {
+interface RootLayoutProps {
+  children: ReactNode;
+}
+
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="fr">
       <body>
-        <SessionProvider session={session}>{children}</SessionProvider>
+        <SessionProvider>{children}</SessionProvider>
       </body>
     </html>
   );
