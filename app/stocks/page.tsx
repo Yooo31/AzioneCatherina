@@ -9,7 +9,7 @@ export default function StockPage() {
   const userId = session?.user?.id?.toString() || '';
 
   return (
-    <main className="p-6">
+    <main className="p-6 sm:w-full md:w-3/4 lg:w-3/4 m-auto h-full">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Gestion des stocks</h1>
         <StockForm userId={userId} />
