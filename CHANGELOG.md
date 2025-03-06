@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/Yooo31/AzioneCatherina/compare/v1.1.1...v1.1.2) (2025-03-06)
+
+
+### Bug Fixes
+
+* **Deployment:** Change pnpm version ([95b0313](https://github.com/Yooo31/AzioneCatherina/commit/95b03138439dfe2c41ba7606c81bc0af4eebc186))
+
 ## [1.1.1](https://github.com/Yooo31/AzioneCatherina/compare/v1.1.0...v1.1.1) (2025-03-06)
 
 
