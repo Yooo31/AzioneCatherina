@@ -1,3 +1,11 @@
+## [1.0.4](https://github.com/Yooo31/AzioneCatherina/compare/v1.0.3...v1.0.4) (2025-03-06)
+
+
+### Bug Fixes
+
+* **HotFix cicd:**  change Deployment ([f04b261](https://github.com/Yooo31/AzioneCatherina/commit/f04b26137f01bf011bde94509c8a73e9c2fb3887))
+* **HotFix cicd:**  change Deployment ([f823456](https://github.com/Yooo31/AzioneCatherina/commit/f823456830dcb39de8188249cf2b2d623c92d356))
+
 ## [1.0.3](https://github.com/Yooo31/AzioneCatherina/compare/v1.0.2...v1.0.3) (2025-03-06)
 
 
