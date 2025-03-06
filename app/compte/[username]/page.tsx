@@ -27,7 +27,7 @@ export default function CreateUserPage() {
 
     if (response.ok) {
       toast.success('Compte créé avec succès !');
-      setTimeout(() => router.push('/auth'), 2000);
+      setTimeout(() => router.push('/login'), 2000);
     } else {
       toast.error(data.error || 'Une erreur est survenue.');
     }
