@@ -41,3 +41,6 @@ jobs:
 
       # - name: 🔥 Check TypeScript (si applicable)
       #   run: pnpx tsc --noEmit
+
+      - name: 👷 Build project
+        run: pnpm run build
