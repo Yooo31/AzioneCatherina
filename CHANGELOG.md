@@ -7,19 +7,17 @@
 
 ## [1.0.4](https://github.com/Yooo31/AzioneCatherina/compare/v1.0.3...v1.0.4) (2025-03-06)
 
-
 ### Bug Fixes
 
-* **HotFix cicd:**  change Deployment ([f04b261](https://github.com/Yooo31/AzioneCatherina/commit/f04b26137f01bf011bde94509c8a73e9c2fb3887))
-* **HotFix cicd:**  change Deployment ([f823456](https://github.com/Yooo31/AzioneCatherina/commit/f823456830dcb39de8188249cf2b2d623c92d356))
+- **HotFix cicd:** change Deployment ([f04b261](https://github.com/Yooo31/AzioneCatherina/commit/f04b26137f01bf011bde94509c8a73e9c2fb3887))
+- **HotFix cicd:** change Deployment ([f823456](https://github.com/Yooo31/AzioneCatherina/commit/f823456830dcb39de8188249cf2b2d623c92d356))
 
 ## [1.0.3](https://github.com/Yooo31/AzioneCatherina/compare/v1.0.2...v1.0.3) (2025-03-06)
 
-
 ### Bug Fixes
 
-* **HotFix cicd:**  change Deployment ([c8258b0](https://github.com/Yooo31/AzioneCatherina/commit/c8258b097cbe471db14cda1443855b44c6d11e2e))
-* **HotFix cicd:**  change Deployment ([941aedc](https://github.com/Yooo31/AzioneCatherina/commit/941aedcf6f06d3fb27860bce184fa42ce1c78e24))
+- **HotFix cicd:** change Deployment ([c8258b0](https://github.com/Yooo31/AzioneCatherina/commit/c8258b097cbe471db14cda1443855b44c6d11e2e))
+- **HotFix cicd:** change Deployment ([941aedc](https://github.com/Yooo31/AzioneCatherina/commit/941aedcf6f06d3fb27860bce184fa42ce1c78e24))
 
 ## [1.0.2](https://github.com/Yooo31/AzioneCatherina/compare/v1.0.1...v1.0.2) (2025-03-06)
 
