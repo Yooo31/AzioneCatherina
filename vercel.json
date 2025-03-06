@@ -1,0 +1,11 @@
+{
+  "build": {
+    "env": {
+      "PRISMA_GENERATE": "true"
+    },
+    "commands": {
+      "install": "pnpm install && pnpm prisma generate",
+      "build": "pnpm run build"
+    }
+  }
+}
