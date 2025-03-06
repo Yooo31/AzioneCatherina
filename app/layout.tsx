@@ -13,11 +13,10 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="fr">
       <body>
-        <SessionProvider session={session}>
+        <SessionProvider>
           {children}
           <Toaster position="top-right" />
         </SessionProvider>
-        <SessionProvider>{children}</SessionProvider>
       </body>
     </html>
   );

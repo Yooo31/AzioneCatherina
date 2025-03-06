@@ -33,6 +33,7 @@ type StockFormProps = {
   stock?: { id: string; productName: string; productType: string; quantity: number };
   userId: string;
 };
+type StockFormData = z.infer<typeof stockSchema>;
 
 export function StockForm({ stock, userId }: StockFormProps) {
   const [open, setOpen] = useState(false);
@@ -49,7 +50,7 @@ export function StockForm({ stock, userId }: StockFormProps) {
     defaultValues: stock ?? { productName: '', productType: '', quantity: 0 },
   });
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: StockFormData) => {
     const url = '/api/stock';
     const method = stock ? 'PUT' : 'POST';
     const action = stock ? 'modifié' : 'ajouté';
