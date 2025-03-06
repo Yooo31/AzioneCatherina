@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { DataTable } from '@/components/ui/data-table';
 import { Input } from '@/components/ui/input';
 import { StockForm } from '@/components/StockForm';
+import { ErrorCard } from '@/components/ErrorCard';
 import {
   Select,
   SelectContent,
@@ -12,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import DataTableSkeleton from '@/components/Skeleton/DataTableSkeleton';
 
 type Stock = {
   id: string;
@@ -27,12 +29,21 @@ export function StockTable({ userId }: { userId: string }) {
   const [filters, setFilters] = useState<ColumnFiltersState>([]);
   const [search, setSearch] = useState('');
   const [selectedType, setSelectedType] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [errorLoading, setErrorLoading] = useState(false);
 
   useEffect(() => {
     fetch('/api/stock')
       .then((res) => res.json())
-      .then((data) => setStocks(data))
-      .catch((error) => console.error('Erreur de chargement', error));
+      .then((data) => {
+        setStocks(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error('Erreur de chargement', error);
+        setLoading(false);
+        setErrorLoading(true);
+      });
   }, []);
 
   const columns: ColumnDef<Stock>[] = [
@@ -95,7 +106,16 @@ export function StockTable({ userId }: { userId: string }) {
         </Select>
       </div>
 
-      <DataTable columns={columns} data={stocks} filters={filters} />
+      {loading ? (
+        <DataTableSkeleton />
+      ) : errorLoading ? (
+        <ErrorCard
+          title="Erreur de chargement"
+          description="Une erreur est survenue lors du chargement des stocks"
+        />
+      ) : (
+        <DataTable columns={columns} data={stocks} filters={filters} />
+      )}
     </div>
   );
 }
