@@ -6,7 +6,7 @@ export async function middleware(req: NextRequest) {
   const isAuthPage = req.nextUrl.pathname.startsWith('/login');
 
   if (!req.url || typeof req.url !== 'string') {
-    console.error("⚠️ ERREUR: req.url est invalide:", req.url);
+    console.error('⚠️ ERREUR: req.url est invalide:', req.url);
     return NextResponse.next();
   }
 
