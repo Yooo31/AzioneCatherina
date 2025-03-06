@@ -1,0 +1,46 @@
+name: 🔍 Clean Code
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - feat/*
+      - fix/*
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: 🧼 Lint & Format Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 21.7
+
+      - name: 🔧 Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7
+
+      - name: 📥 Install dependencies
+        run: pnpm install
+
+      # - name: 🔎 Run ESLint
+      # run: pnpx eslint 'app/**/*.{ts,tsx}'
+
+      - name: 🎨 Run Prettier
+        run: pnpx prettier --write --check .
+
+      # - name: 🔥 Check TypeScript (si applicable)
+      #   run: pnpx tsc --noEmit
+
+      - name: 👷 Build project
+        run: pnpm run build

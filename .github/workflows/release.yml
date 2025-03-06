@@ -1,0 +1,41 @@
+name: 🚀 Release
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+permissions:
+  contents: write # Autoriser Semantic Release à créer des tags et releases
+  issues: write # Pour créer des issues en cas de problème
+  pull-requests: write # Pour ajouter des commentaires sur les PRs si besoin
+
+jobs:
+  release:
+    name: 🔥 Semantic Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Nécessaire pour que Semantic Release fonctionne correctement
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 21.7
+
+      - name: 🔧 Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7
+
+      - name: 📥 Install dependencies
+        run: pnpm ci # Installation propre des dépendances
+
+      - name: 🚀 Run Semantic Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Nécessaire pour publier sur GitHub
+        run: pnpx semantic-release
