@@ -19,13 +19,13 @@ jobs:
       - name: 🔧 Install pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 7
+          version: 10
           standalone: true
 
       - name: 📦 Setup Node.js with pnpm cache
         uses: actions/setup-node@v4
         with:
-          node-version: 21.7
+          node-version: 22.x
           cache: 'pnpm'
 
       - name: 📦 Install dependencies
