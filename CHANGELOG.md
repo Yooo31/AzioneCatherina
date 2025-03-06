@@ -1,3 +1,11 @@
+## [1.1.4](https://github.com/Yooo31/AzioneCatherina/compare/v1.1.3...v1.1.4) (2025-03-06)
+
+
+### Bug Fixes
+
+* hotfix ([6f3ff34](https://github.com/Yooo31/AzioneCatherina/commit/6f3ff34f93ce3d46642b53afc48d5b8287836374))
+* hotfix ([51b57f5](https://github.com/Yooo31/AzioneCatherina/commit/51b57f5d0862a958e0e53ab17845c3d085c1b24e))
+
 ## [1.1.3](https://github.com/Yooo31/AzioneCatherina/compare/v1.1.2...v1.1.3) (2025-03-06)
 
 
