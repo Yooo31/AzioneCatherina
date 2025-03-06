@@ -26,10 +26,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 21.7
-          cache: "pnpm"
+          cache: 'pnpm'
 
       - name: 📦 Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: 🔄 Generate Prisma Client
         run: pnpm prisma generate
