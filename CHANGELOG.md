@@ -7,10 +7,9 @@
 
 ## [1.1.1](https://github.com/Yooo31/AzioneCatherina/compare/v1.1.0...v1.1.1) (2025-03-06)
 
-
 ### Bug Fixes
 
-* **Deployment:** Add config file to deploy ([52605ec](https://github.com/Yooo31/AzioneCatherina/commit/52605ec241731b9b7f0c8c99869a87e53289899a))
+- **Deployment:** Add config file to deploy ([52605ec](https://github.com/Yooo31/AzioneCatherina/commit/52605ec241731b9b7f0c8c99869a87e53289899a))
 
 # [1.1.0](https://github.com/Yooo31/AzioneCatherina/compare/v1.0.7...v1.1.0) (2025-03-06)
 

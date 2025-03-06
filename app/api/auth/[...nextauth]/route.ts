@@ -24,8 +24,12 @@ const authOptions = {
           throw new Error('Missing username or password');
         }
 
+        const lowerCaseUsername = credentials.username.toLowerCase();
+        console.log('#############');
+        console.log(lowerCaseUsername);
+
         const user = await prismaClient.user.findUnique({
-          where: { username: credentials.username },
+          where: { username: lowerCaseUsername },
         });
         console.log('Utilisateur trouvé:', user);
 
