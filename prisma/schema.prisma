@@ -13,4 +13,32 @@ model User {
   username  String   @unique
   password  String
   createdAt DateTime @default(now())
+
+  stocksUpdated Stock[]
+  stockHistory  StockHistory[]
+}
+
+model Stock {
+  id          String   @id @default(uuid())
+  productName String
+  productType String
+  quantity    Int
+  updatedBy   String?  // Optionnel
+  updatedByUser User?  @relation(fields: [updatedBy], references: [id], onDelete: SetNull)
+  updatedAt   DateTime @updatedAt
+  createdAt   DateTime @default(now())
+
+  history StockHistory[]
+}
+
+model StockHistory {
+  id             String   @id @default(uuid())
+  stock         Stock    @relation(fields: [stockId], references: [id], onDelete: Cascade)
+  stockId        String
+  quantityBefore Int
+  quantityAfter  Int
+  updatedBy      String?  // Optionnel
+  updatedByUser  User?    @relation(fields: [updatedBy], references: [id], onDelete: SetNull)
+  updatedAt      DateTime @default(now())
+  createdAt      DateTime @default(now())
 }
