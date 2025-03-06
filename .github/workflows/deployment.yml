@@ -16,16 +16,17 @@ jobs:
       - name: 📥 Checkout repository
         uses: actions/checkout@v4
 
-      - name: 📦 Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 21.7
-          cache: "pnpm"
-
       - name: 🔧 Install pnpm
         uses: pnpm/action-setup@v2
         with:
           version: 7
+          standalone: true
+
+      - name: 📦 Setup Node.js with pnpm cache
+        uses: actions/setup-node@v4
+        with:
+          node-version: 21.7
+          cache: "pnpm"
 
       - name: 📦 Install dependencies
         run: pnpm install --frozen-lockfile
@@ -34,7 +35,7 @@ jobs:
         run: pnpm prisma generate
 
       - name: 🚀 Install Vercel CLI
-        run: pnpm install --global vercel@latest
+        run: pnpm add --global vercel@latest
 
       - name: 🔍 Pull Vercel Environment Information
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
