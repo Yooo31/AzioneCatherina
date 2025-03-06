@@ -52,9 +52,7 @@ export function StockTable({ userId }: { userId: string }) {
     {
       id: 'actions',
       header: 'Actions',
-      cell: ({ row }) => (
-        <StockForm stock={row.original} userId={userId} />
-      ),
+      cell: ({ row }) => <StockForm stock={row.original} userId={userId} />,
     },
   ];
 

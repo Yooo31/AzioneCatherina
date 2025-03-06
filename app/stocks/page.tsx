@@ -1,12 +1,12 @@
 'use client';
 
-import { StockTable } from "@/components/StockTable";
-import { StockForm } from "@/components/StockForm";
-import { useSession } from "next-auth/react";
+import { StockTable } from '@/components/StockTable';
+import { StockForm } from '@/components/StockForm';
+import { useSession } from 'next-auth/react';
 
 export default function StockPage() {
   const { data: session } = useSession();
-  const userId = session?.user?.id?.toString() || "";
+  const userId = session?.user?.id?.toString() || '';
 
   return (
     <main className="p-6">

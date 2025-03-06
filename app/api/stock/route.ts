@@ -1,6 +1,6 @@
-import { prisma } from "@/lib/prisma";
-import { NextResponse } from "next/server";
-import { z } from "zod";
+import { prisma } from '@/lib/prisma';
+import { NextResponse } from 'next/server';
+import { z } from 'zod';
 
 const stockSchema = z.object({
   productName: z.string().min(1),
@@ -17,7 +17,7 @@ export async function GET() {
     });
     return NextResponse.json(stocks, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
+    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 });
   }
 }
 
@@ -33,7 +33,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json(newStock, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ error: "Données invalides" }, { status: 400 });
+    return NextResponse.json({ error: 'Données invalides' }, { status: 400 });
   }
 }
 
@@ -45,7 +45,7 @@ export async function PUT(req: Request) {
 
     const stock = await prisma.stock.findUnique({ where: { id } });
     if (!stock) {
-      return NextResponse.json({ error: "Stock non trouvé" }, { status: 404 });
+      return NextResponse.json({ error: 'Stock non trouvé' }, { status: 404 });
     }
 
     await prisma.stockHistory.create({
@@ -64,7 +64,7 @@ export async function PUT(req: Request) {
 
     return NextResponse.json(updatedStock, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ error: "Erreur lors de la mise à jour" }, { status: 400 });
+    return NextResponse.json({ error: 'Erreur lors de la mise à jour' }, { status: 400 });
   }
 }
 
@@ -75,14 +75,13 @@ export async function DELETE(req: Request) {
 
     const stock = await prisma.stock.findUnique({ where: { id } });
     if (!stock) {
-      return NextResponse.json({ error: "Stock non trouvé" }, { status: 404 });
+      return NextResponse.json({ error: 'Stock non trouvé' }, { status: 404 });
     }
 
     await prisma.stock.delete({ where: { id } });
 
-    return NextResponse.json({ message: "Stock supprimé avec succès" }, { status: 200 });
+    return NextResponse.json({ message: 'Stock supprimé avec succès' }, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ error: "Erreur lors de la suppression" }, { status: 400 });
+    return NextResponse.json({ error: 'Erreur lors de la suppression' }, { status: 400 });
   }
 }
-
