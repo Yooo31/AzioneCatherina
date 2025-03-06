@@ -1,3 +1,11 @@
+## [1.0.7](https://github.com/Yooo31/AzioneCatherina/compare/v1.0.6...v1.0.7) (2025-03-06)
+
+
+### Bug Fixes
+
+* Change version Next ([eec8f84](https://github.com/Yooo31/AzioneCatherina/commit/eec8f84f3c0819efcc13cd6b5590254a8199de90))
+* Change version Next ([0156003](https://github.com/Yooo31/AzioneCatherina/commit/0156003ab8b02b08791cc296dae4b2ad0a1cb69a))
+
 ## [1.0.6](https://github.com/Yooo31/AzioneCatherina/compare/v1.0.5...v1.0.6) (2025-03-06)
 
 
