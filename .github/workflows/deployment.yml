@@ -35,7 +35,7 @@ jobs:
         run: pnpm prisma generate
 
       - name: 🚀 Install Vercel CLI
-        run: pnpm add --global vercel@latest
+        run: pnpm install --global vercel@latest
 
       - name: 🔍 Pull Vercel Environment Information
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
