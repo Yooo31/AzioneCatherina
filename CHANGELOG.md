@@ -1,3 +1,10 @@
+## [1.0.6](https://github.com/Yooo31/AzioneCatherina/compare/v1.0.5...v1.0.6) (2025-03-06)
+
+
+### Bug Fixes
+
+* **HotFix cicd:** change 404 page ([28410d1](https://github.com/Yooo31/AzioneCatherina/commit/28410d19458f8dfdafd116506e7f8916436bd815))
+
 ## [1.0.5](https://github.com/Yooo31/AzioneCatherina/compare/v1.0.4...v1.0.5) (2025-03-06)
 
 
