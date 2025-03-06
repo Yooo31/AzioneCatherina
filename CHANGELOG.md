@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/Yooo31/AzioneCatherina/compare/v1.0.7...v1.1.0) (2025-03-06)
+
+
+### Features
+
+* **Stocks:** Add stock system ([#5](https://github.com/Yooo31/AzioneCatherina/issues/5)) ([c65d6a5](https://github.com/Yooo31/AzioneCatherina/commit/c65d6a5130fcab19360172c257bfd8eae1e85607))
+
 ## [1.0.7](https://github.com/Yooo31/AzioneCatherina/compare/v1.0.6...v1.0.7) (2025-03-06)
 
 
