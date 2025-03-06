@@ -5,7 +5,7 @@ import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Toaster, toast } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 
 export default function LoginPage() {
   const [name, setName] = useState('');
@@ -31,7 +31,6 @@ export default function LoginPage() {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
-      <Toaster position="top-right" />
       <h1 className="text-2xl font-semibold">Connexion</h1>
       <form onSubmit={handleSubmit} className="mt-4 space-y-4 w-80">
         <Input
@@ -47,7 +46,7 @@ export default function LoginPage() {
           onChange={(e) => setPassword(e.target.value)}
         />
         <Button type="submit" className="w-full">
-          Créer le compte
+          Connexion
         </Button>
       </form>
     </div>

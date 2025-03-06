@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useParams } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Toaster, toast } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 
 export default function CreateUserPage() {
   const [password, setPassword] = useState('');
@@ -35,7 +35,6 @@ export default function CreateUserPage() {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
-      <Toaster position="top-right" />
       <h1 className="text-2xl font-semibold">Créer un compte</h1>
       <form onSubmit={handleSubmit} className="mt-4 space-y-4 w-80">
         <Input
