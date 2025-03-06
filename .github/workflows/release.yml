@@ -33,7 +33,7 @@ jobs:
           version: 7
 
       - name: 📥 Install dependencies
-        run: pnpm install --frozen-lockfile # Installation propre des dépendances
+        run: pnpm install # Installation propre des dépendances
 
       - name: 🚀 Run Semantic Release
         env:
