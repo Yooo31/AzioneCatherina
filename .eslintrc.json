@@ -7,7 +7,8 @@
   "extends": [
     "airbnb-typescript",
     "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "next/core-web-vitals"
   ],
   "plugins": ["@typescript-eslint", "import", "prettier"],
   "rules": {
@@ -15,5 +16,6 @@
     "import/prefer-default-export": "off",
     "@typescript-eslint/explicit-function-return-type": "warn",
     "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
-  }
+  },
+  "ignorePatterns": ["node_modules", "dist", "build", ".next"]
 }

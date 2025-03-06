@@ -1,0 +1,47 @@
+name: 🚀 Vercel Production Deployment
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  Deploy-Production:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🔧 Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7
+          standalone: true
+
+      - name: 📦 Setup Node.js with pnpm cache
+        uses: actions/setup-node@v4
+        with:
+          node-version: 21.7
+          cache: 'pnpm'
+
+      - name: 📦 Install dependencies
+        run: pnpm install
+
+      - name: 🔄 Generate Prisma Client
+        run: pnpm prisma generate
+
+      - name: 🚀 Install Vercel CLI
+        run: pnpm install --global vercel@latest
+
+      - name: 🔍 Pull Vercel Environment Information
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: 🏗️ Build Project Artifacts
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: 🚀 Deploy to Vercel
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}

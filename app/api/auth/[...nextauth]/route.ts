@@ -1,12 +1,14 @@
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
-import NextAuth, { Session } from 'next-auth';
-import type { JWT } from 'next-auth/jwt';
+import NextAuth, { Session, User } from 'next-auth';
+import { JWT } from 'next-auth/jwt';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
-const prisma = new PrismaClient();
+// Crée une instance de PrismaClient
+const prismaClient = new PrismaClient();
 
-export const authOptions = {
+// Configuration de NextAuth
+const authOptions = {
   providers: [
     CredentialsProvider({
       name: 'Credentials',
@@ -15,28 +17,32 @@ export const authOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
+        console.log('Tentative de connexion avec:', credentials);
+
         if (!credentials?.username || !credentials?.password) {
+          console.error('Erreur: Identifiant ou mot de passe manquant');
           throw new Error('Missing username or password');
         }
 
-        const user = await prisma.user
-          .findUnique({
-            where: { username: credentials.username },
-          })
-          .catch((e) => {
-            throw new Error('Database error ', e);
-          });
+        const user = await prismaClient.user.findUnique({
+          where: { username: credentials.username },
+        });
+        console.log('Utilisateur trouvé:', user);
 
         if (!user) {
+          console.error('Erreur: Utilisateur non trouvé');
           throw new Error('User not found');
         }
 
         const passwordMatch = await bcrypt.compare(credentials.password, user.password);
+        console.log('mdps : ' + passwordMatch);
 
         if (!passwordMatch) {
+          console.error('Erreur: Mot de passe invalide');
           throw new Error('Invalid password');
         }
 
+        console.log('Connexion réussie pour:', user.username);
         return { id: user.id, name: user.username };
       },
     }),
@@ -45,7 +51,7 @@ export const authOptions = {
     signIn: '/login',
   },
   callbacks: {
-    async jwt({ token, user }: { token: JWT; user?: any }) {
+    async jwt({ token, user }: { token: JWT; user?: User }) {
       if (user) {
         token.user = { id: user.id, name: user.name };
       }
@@ -53,7 +59,7 @@ export const authOptions = {
     },
     async session({ session, token }: { session: Session; token: JWT }) {
       if (token.user) {
-        session.user = token.user as { id: string; name: string };
+        session.user = token.user as User;
       }
       return session;
     },
@@ -64,5 +70,8 @@ export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 };
 
+// Créer le handler pour NextAuth
 const handler = NextAuth(authOptions);
+
+// Exporter les méthodes GET et POST
 export { handler as GET, handler as POST };
