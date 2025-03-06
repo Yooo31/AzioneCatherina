@@ -7,10 +7,9 @@
 
 ## [1.0.1](https://github.com/Yooo31/AzioneCatherina/compare/v1.0.0...v1.0.1) (2025-03-06)
 
-
 ### Bug Fixes
 
-* regenerate pnpm-lock.yaml ([8a43301](https://github.com/Yooo31/AzioneCatherina/commit/8a433017c1ceaaba430ba4db78bef4dda9c6c350))
+- regenerate pnpm-lock.yaml ([8a43301](https://github.com/Yooo31/AzioneCatherina/commit/8a433017c1ceaaba430ba4db78bef4dda9c6c350))
 
 # 1.0.0 (2025-03-06)
 
