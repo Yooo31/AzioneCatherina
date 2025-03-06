@@ -1,7 +1,7 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  turno: true,
+  turbo: true,
 };
 
 export default nextConfig;
