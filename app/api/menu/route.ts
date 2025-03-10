@@ -32,14 +32,16 @@ const menuSchema = z.object({
   dessert: z.string().optional(),
   information: z.string().optional(),
   proposal: z.string(),
-  owner: z.string().nullable(),
+  owner: z.string().nullable().optional(),
 });
 
 // 🟢 POST - Ajouter un nouveau menu
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const validatedData = menuSchema.parse(body);
+    console.log("📩 Reçu:", body); // 🔍 Debug
+
+    const validatedData = menuSchema.parse(body); // Valide avec Zod
 
     const newMenu = await prisma.menu.create({
       data: validatedData,
@@ -47,7 +49,8 @@ export async function POST(req: Request) {
 
     return NextResponse.json(newMenu, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ error: 'Erreur lors de la création du menu' }, { status: 400 });
+    console.error("❌ Erreur POST /api/menu:", error);
+    return NextResponse.json({ error: "Données invalides" }, { status: 400 });
   }
 }
 
@@ -90,3 +93,27 @@ export async function DELETE(req: Request) {
     return NextResponse.json({ error: 'Erreur lors de la suppression du menu' }, { status: 400 });
   }
 }
+
+// 🟢 PATCH - Devenir responsable d'un menu
+export async function PATCH(req: Request) {
+  try {
+    const { menuId, userId } = await req.json();
+    if (!menuId || !userId) {
+      return NextResponse.json({ error: "ID du menu et ID de l'utilisateur requis" }, { status: 400 });
+    }
+
+    const menu = await prisma.menu.findUnique({ where: { id: menuId } });
+    if (!menu) return NextResponse.json({ error: "Menu introuvable" }, { status: 404 });
+    if (menu.owner) return NextResponse.json({ error: "Ce menu a déjà un responsable" }, { status: 400 });
+
+    const updatedMenu = await prisma.menu.update({
+      where: { id: menuId },
+      data: { owner: userId },
+    });
+
+    return NextResponse.json(updatedMenu);
+  } catch (error) {
+    return NextResponse.json({ error: "Erreur lors de l'assignation du responsable" }, { status: 500 });
+  }
+}
+
