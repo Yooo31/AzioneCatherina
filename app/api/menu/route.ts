@@ -1,6 +1,6 @@
-import { PrismaClient } from "@prisma/client";
-import { NextResponse } from "next/server";
-import { z } from "zod";
+import { PrismaClient } from '@prisma/client';
+import { NextResponse } from 'next/server';
+import { z } from 'zod';
 
 const prisma = new PrismaClient();
 
@@ -12,18 +12,21 @@ export async function GET() {
         ownerUser: true,
         comments: true,
       },
-      orderBy: { createdAt: "asc" },
+      orderBy: { createdAt: 'asc' },
     });
 
     return NextResponse.json(menus);
   } catch (error) {
-    return NextResponse.json({ error: "Erreur lors de la récupération des menus" }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Erreur lors de la récupération des menus' },
+      { status: 500 },
+    );
   }
 }
 
 // 🟢 SCHEMA de validation pour la création de menu
 const menuSchema = z.object({
-  title: z.string().min(3, "Le titre doit contenir au moins 3 caractères"),
+  title: z.string().min(3, 'Le titre doit contenir au moins 3 caractères'),
   starter: z.string().optional(),
   dish: z.string().optional(),
   dessert: z.string().optional(),
@@ -44,7 +47,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json(newMenu, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ error: "Erreur lors de la création du menu" }, { status: 400 });
+    return NextResponse.json({ error: 'Erreur lors de la création du menu' }, { status: 400 });
   }
 }
 
@@ -52,7 +55,7 @@ export async function POST(req: Request) {
 export async function PUT(req: Request) {
   try {
     const body = await req.json();
-    if (!body.id) return NextResponse.json({ error: "ID du menu requis" }, { status: 400 });
+    if (!body.id) return NextResponse.json({ error: 'ID du menu requis' }, { status: 400 });
 
     const updatedMenu = await prisma.menu.update({
       where: { id: body.id },
@@ -68,7 +71,7 @@ export async function PUT(req: Request) {
 
     return NextResponse.json(updatedMenu);
   } catch (error) {
-    return NextResponse.json({ error: "Erreur lors de la modification du menu" }, { status: 400 });
+    return NextResponse.json({ error: 'Erreur lors de la modification du menu' }, { status: 400 });
   }
 }
 
@@ -76,14 +79,14 @@ export async function PUT(req: Request) {
 export async function DELETE(req: Request) {
   try {
     const { id } = await req.json();
-    if (!id) return NextResponse.json({ error: "ID du menu requis" }, { status: 400 });
+    if (!id) return NextResponse.json({ error: 'ID du menu requis' }, { status: 400 });
 
     await prisma.menu.delete({
       where: { id },
     });
 
-    return NextResponse.json({ message: "Menu supprimé avec succès" });
+    return NextResponse.json({ message: 'Menu supprimé avec succès' });
   } catch (error) {
-    return NextResponse.json({ error: "Erreur lors de la suppression du menu" }, { status: 400 });
+    return NextResponse.json({ error: 'Erreur lors de la suppression du menu' }, { status: 400 });
   }
 }
