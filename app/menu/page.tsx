@@ -1,11 +1,12 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Plus } from 'lucide-react'; // Icône pour l'ajout
-import { toast } from 'react-hot-toast';
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Plus, MessageCircle } from "lucide-react";
+import { toast } from "react-hot-toast";
+import CommentDialog from "@/components/CommentDialog"; // Import du chat
 
 type Menu = {
   id: string;
@@ -19,36 +20,34 @@ type Menu = {
   createdAt: string;
 };
 
-const USER_ID = 'user123'; // TODO: Remplacer par l'ID réel de l'utilisateur connecté
+const USER_ID = "user123"; // TODO: Remplacer par l'ID réel de l'utilisateur connecté
 
 export default function MenuPage() {
   const [menus, setMenus] = useState<Menu[]>([]);
   const [loading, setLoading] = useState(true);
   const [isAdding, setIsAdding] = useState(false);
+  const [openChatMenuId, setOpenChatMenuId] = useState<string | null>(null);
   const [newMenu, setNewMenu] = useState({
-    title: '',
-    starter: '',
-    dish: '',
-    dessert: '',
-    information: '',
+    title: "",
+    starter: "",
+    dish: "",
+    dessert: "",
+    information: "",
   });
 
   useEffect(() => {
-    fetch('/api/menu')
+    fetch("/api/menu")
       .then((res) => res.json())
-      .then((data) => {
-        setMenus(data);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
+      .then(setMenus)
+      .finally(() => setLoading(false));
   }, []);
 
-  // 🟢 Fonction pour assigner un responsable
+  // 🟢 Fonction pour devenir responsable d'un menu
   const handleBecomeOwner = async (menuId: string) => {
     try {
-      const res = await fetch('/api/menu', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/menu", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ menuId, userId: USER_ID }),
       });
 
@@ -59,31 +58,29 @@ export default function MenuPage() {
       }
 
       const updatedMenu = await res.json();
-
-      // 🟢 Met à jour la liste avec le menu modifié
       setMenus((prevMenus) =>
         prevMenus.map((menu) =>
-          menu.id === updatedMenu.id ? { ...menu, owner: updatedMenu.owner } : menu,
-        ),
+          menu.id === updatedMenu.id ? { ...menu, owner: updatedMenu.owner } : menu
+        )
       );
 
-      toast.success('Vous êtes maintenant responsable de ce menu !');
+      toast.success("Vous êtes maintenant responsable de ce menu !");
     } catch (error) {
       toast.error("Erreur lors de l'assignation");
     }
   };
 
-  // 🟢 Fonction pour ajouter un menu avec toast
+  // 🟢 Fonction pour ajouter un menu
   const handleAddMenu = async () => {
     if (!newMenu.title.trim()) {
-      toast.error('Le titre est requis !');
+      toast.error("Le titre est requis !");
       return;
     }
 
     try {
-      const res = await fetch('/api/menu', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/menu", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...newMenu,
           proposal: USER_ID,
@@ -99,12 +96,17 @@ export default function MenuPage() {
       const createdMenu = await res.json();
       setMenus([...menus, createdMenu]);
       setIsAdding(false);
-      setNewMenu({ title: '', starter: '', dish: '', dessert: '', information: '' });
+      setNewMenu({ title: "", starter: "", dish: "", dessert: "", information: "" });
 
-      toast.success('Menu ajouté avec succès !');
+      toast.success("Menu ajouté avec succès !");
     } catch (error) {
       toast.error("Erreur lors de l'ajout du menu");
     }
+  };
+
+  // 🟢 Fonction pour ouvrir le chat des commentaires
+  const openChat = (menuId: string) => {
+    setOpenChatMenuId(menuId);
   };
 
   return (
@@ -119,16 +121,28 @@ export default function MenuPage() {
             <div key={menu.id} className="border p-4 rounded-lg shadow bg-white">
               <h2 className="text-xl font-bold">{menu.title}</h2>
               <p className="text-gray-600">🍽️ {menu.starter || "Pas d'entrée"}</p>
-              <p className="text-gray-600">🍛 {menu.dish || 'Pas de plat'}</p>
-              <p className="text-gray-600">🍰 {menu.dessert || 'Pas de dessert'}</p>
-              <p className="text-sm text-gray-500 mt-2">
-                📅 Créé le : {new Date(menu.createdAt).toLocaleDateString()}
-              </p>
+              <p className="text-gray-600">🍛 {menu.dish || "Pas de plat"}</p>
+              <p className="text-gray-600">🍰 {menu.dessert || "Pas de dessert"}</p>
+              <p className="text-sm text-gray-500">📅 Créé le : {new Date(menu.createdAt).toLocaleDateString()}</p>
               <p className="text-sm text-gray-500">👤 Proposé par : {menu.proposal}</p>
+
               {menu.owner ? (
                 <p className="text-sm text-green-600">✅ Responsable : {menu.owner}</p>
               ) : (
-                <Button onClick={() => handleBecomeOwner(menu.id)} className="mt-4 w-full">Devenir responsable</Button>
+                <Button onClick={() => handleBecomeOwner(menu.id)} className="mt-4 w-full">
+                  Devenir responsable
+                </Button>
+              )}
+
+              {/* 🟢 Bouton pour ouvrir le chat */}
+              <Button variant="outline" className="mt-4 flex items-center" onClick={() => openChat(menu.id)}>
+                <MessageCircle className="w-5 h-5 mr-2" />
+                Commentaires
+              </Button>
+
+              {/* 🟢 Popup des commentaires */}
+              {openChatMenuId === menu.id && (
+                <CommentDialog menuId={menu.id} userId={USER_ID} isOpen={true} onClose={() => setOpenChatMenuId(null)} />
               )}
             </div>
           ))}
@@ -182,9 +196,7 @@ export default function MenuPage() {
                 />
                 <div className="flex gap-2">
                   <Button onClick={handleAddMenu}>Ajouter</Button>
-                  <Button variant="outline" onClick={() => setIsAdding(false)}>
-                    Annuler
-                  </Button>
+                  <Button variant="outline" onClick={() => setIsAdding(false)}>Annuler</Button>
                 </div>
               </div>
             )}

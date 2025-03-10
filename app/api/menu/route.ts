@@ -39,7 +39,7 @@ const menuSchema = z.object({
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    console.log("📩 Reçu:", body); // 🔍 Debug
+    console.log('📩 Reçu:', body); // 🔍 Debug
 
     const validatedData = menuSchema.parse(body); // Valide avec Zod
 
@@ -49,8 +49,8 @@ export async function POST(req: Request) {
 
     return NextResponse.json(newMenu, { status: 201 });
   } catch (error) {
-    console.error("❌ Erreur POST /api/menu:", error);
-    return NextResponse.json({ error: "Données invalides" }, { status: 400 });
+    console.error('❌ Erreur POST /api/menu:', error);
+    return NextResponse.json({ error: 'Données invalides' }, { status: 400 });
   }
 }
 
@@ -99,12 +99,16 @@ export async function PATCH(req: Request) {
   try {
     const { menuId, userId } = await req.json();
     if (!menuId || !userId) {
-      return NextResponse.json({ error: "ID du menu et ID de l'utilisateur requis" }, { status: 400 });
+      return NextResponse.json(
+        { error: "ID du menu et ID de l'utilisateur requis" },
+        { status: 400 },
+      );
     }
 
     const menu = await prisma.menu.findUnique({ where: { id: menuId } });
-    if (!menu) return NextResponse.json({ error: "Menu introuvable" }, { status: 404 });
-    if (menu.owner) return NextResponse.json({ error: "Ce menu a déjà un responsable" }, { status: 400 });
+    if (!menu) return NextResponse.json({ error: 'Menu introuvable' }, { status: 404 });
+    if (menu.owner)
+      return NextResponse.json({ error: 'Ce menu a déjà un responsable' }, { status: 400 });
 
     const updatedMenu = await prisma.menu.update({
       where: { id: menuId },
@@ -113,7 +117,9 @@ export async function PATCH(req: Request) {
 
     return NextResponse.json(updatedMenu);
   } catch (error) {
-    return NextResponse.json({ error: "Erreur lors de l'assignation du responsable" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Erreur lors de l'assignation du responsable" },
+      { status: 500 },
+    );
   }
 }
-
