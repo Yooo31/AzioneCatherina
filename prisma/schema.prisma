@@ -9,14 +9,15 @@ datasource db {
 }
 
 model User {
-  id            String         @id @default(uuid())
-  username      String         @unique
+  id            String           @id @default(uuid())
+  username      String           @unique
   password      String
-  createdAt     DateTime       @default(now())
+  createdAt     DateTime         @default(now())
   stocksUpdated Stock[]
   stockHistory  StockHistory[]
-  menus         Menu[]         @relation("UserMenus")
+  menus         Menu[]           @relation("UserMenus")
   menuComments  MenuCommentary[]
+  Menu          Menu[]
 }
 
 model Stock {
@@ -44,19 +45,20 @@ model StockHistory {
 }
 
 model Menu {
-  id          String   @id @default(uuid())
-  title       String
-  starter     String?
-  dish        String?
-  dessert     String?
-  information String?
-  proposal    String   // Qui propose cette idée ?
-  owner       String?  // Qui est le responsable ?
-  ownerUser   User?    @relation("UserMenus", fields: [owner], references: [id], onDelete: SetNull)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id           String   @id @default(uuid())
+  title        String
+  starter      String?
+  dish         String?
+  dessert      String?
+  information  String?
+  proposal     String
+  proposalUser User?    @relation(fields: [proposal], references: [id])
+  owner        String?
+  ownerUser    User?    @relation("UserMenus", fields: [owner], references: [id], onDelete: SetNull)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
-  comments    MenuCommentary[]
+  comments MenuCommentary[]
 }
 
 model MenuCommentary {
@@ -69,7 +71,6 @@ model MenuCommentary {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
-
 
 model Reservation {
   id        String   @id

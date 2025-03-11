@@ -4,7 +4,6 @@ import { z } from 'zod';
 
 const prisma = new PrismaClient();
 
-// 🟢 SCHEMA de validation Zod pour un commentaire
 const commentSchema = z.object({
   menuId: z.string(),
   userId: z.string(),
@@ -15,24 +14,23 @@ const commentSchema = z.object({
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
-    const menuId = searchParams.get('menuId');
+    const menuId = searchParams.get("menuId");
 
     if (!menuId) {
-      return NextResponse.json({ error: 'ID du menu requis' }, { status: 400 });
+      console.error("❌ Erreur API : menuId manquant !");
+      return NextResponse.json({ error: "ID du menu requis" }, { status: 400 });
     }
 
     const comments = await prisma.menuCommentary.findMany({
       where: { menuId },
       include: { user: true },
-      orderBy: { createdAt: 'asc' },
+      orderBy: { createdAt: "asc" },
     });
 
     return NextResponse.json(comments);
   } catch (error) {
-    return NextResponse.json(
-      { error: 'Erreur lors de la récupération des commentaires' },
-      { status: 500 },
-    );
+    console.error("❌ Erreur serveur :", error);
+    return NextResponse.json({ error: "Erreur lors de la récupération des commentaires" }, { status: 500 });
   }
 }
 

@@ -9,10 +9,11 @@ export async function GET() {
   try {
     const menus = await prisma.menu.findMany({
       include: {
-        ownerUser: true,
         comments: true,
+        ownerUser: { select: { username: true } },
+        proposalUser: { select: { username: true } },
       },
-      orderBy: { createdAt: 'asc' },
+      orderBy: { createdAt: "asc" },
     });
 
     return NextResponse.json(menus);
@@ -24,7 +25,6 @@ export async function GET() {
   }
 }
 
-// 🟢 SCHEMA de validation pour la création de menu
 const menuSchema = z.object({
   title: z.string().min(3, 'Le titre doit contenir au moins 3 caractères'),
   starter: z.string().optional(),
@@ -39,9 +39,8 @@ const menuSchema = z.object({
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    console.log('📩 Reçu:', body); // 🔍 Debug
 
-    const validatedData = menuSchema.parse(body); // Valide avec Zod
+    const validatedData = menuSchema.parse(body);
 
     const newMenu = await prisma.menu.create({
       data: validatedData,
