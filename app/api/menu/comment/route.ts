@@ -14,23 +14,26 @@ const commentSchema = z.object({
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
-    const menuId = searchParams.get("menuId");
+    const menuId = searchParams.get('menuId');
 
     if (!menuId) {
-      console.error("❌ Erreur API : menuId manquant !");
-      return NextResponse.json({ error: "ID du menu requis" }, { status: 400 });
+      console.error('❌ Erreur API : menuId manquant !');
+      return NextResponse.json({ error: 'ID du menu requis' }, { status: 400 });
     }
 
     const comments = await prisma.menuCommentary.findMany({
       where: { menuId },
       include: { user: true },
-      orderBy: { createdAt: "asc" },
+      orderBy: { createdAt: 'asc' },
     });
 
     return NextResponse.json(comments);
   } catch (error) {
-    console.error("❌ Erreur serveur :", error);
-    return NextResponse.json({ error: "Erreur lors de la récupération des commentaires" }, { status: 500 });
+    console.error('❌ Erreur serveur :', error);
+    return NextResponse.json(
+      { error: 'Erreur lors de la récupération des commentaires' },
+      { status: 500 },
+    );
   }
 }
 
@@ -46,6 +49,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json(newComment, { status: 201 });
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: "Erreur lors de l'ajout du commentaire" }, { status: 400 });
   }
 }
@@ -65,6 +69,7 @@ export async function PUT(req: Request) {
 
     return NextResponse.json(updatedComment);
   } catch (error) {
+    console.error(error);
     return NextResponse.json(
       { error: 'Erreur lors de la modification du commentaire' },
       { status: 400 },
@@ -84,6 +89,7 @@ export async function DELETE(req: Request) {
 
     return NextResponse.json({ message: 'Commentaire supprimé avec succès' });
   } catch (error) {
+    console.error(error);
     return NextResponse.json(
       { error: 'Erreur lors de la suppression du commentaire' },
       { status: 400 },

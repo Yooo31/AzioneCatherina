@@ -61,6 +61,7 @@ export default function MenuPage() {
 
       toast.success('Vous êtes maintenant responsable de ce menu !');
     } catch (error) {
+      console.error(error);
       toast.error("Erreur lors de l'assignation");
     }
   };
@@ -80,7 +81,7 @@ export default function MenuPage() {
           {menus.map((menu) => (
             <div key={menu.id} className="border p-4 rounded-lg shadow bg-white">
               <h2 className="text-xl font-bold">{menu.title}</h2>
-              <p className="text-gray-600">🍽️ {menu.starter || 'Pas d\'entrée'}</p>
+              <p className="text-gray-600">🍽️ {menu.starter || "Pas d'entrée"}</p>
               <p className="text-gray-600">🍛 {menu.dish || 'Pas de plat'}</p>
               <p className="text-gray-600">🍰 {menu.dessert || 'Pas de dessert'}</p>
               <p className="text-sm text-gray-500">
@@ -91,7 +92,9 @@ export default function MenuPage() {
               </p>
 
               {menu.owner ? (
-                <p className="text-sm text-green-600">✅ Responsable : {menu.ownerUser?.username}</p>
+                <p className="text-sm text-green-600">
+                  ✅ Responsable : {menu.ownerUser?.username}
+                </p>
               ) : (
                 <Button onClick={() => handleBecomeOwner(menu.id)} className="mt-4 w-full">
                   Devenir responsable

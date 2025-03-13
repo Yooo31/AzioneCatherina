@@ -13,11 +13,12 @@ export async function GET() {
         ownerUser: { select: { username: true } },
         proposalUser: { select: { username: true } },
       },
-      orderBy: { createdAt: "asc" },
+      orderBy: { createdAt: 'asc' },
     });
 
     return NextResponse.json(menus);
   } catch (error) {
+    console.error(error);
     return NextResponse.json(
       { error: 'Erreur lors de la récupération des menus' },
       { status: 500 },
@@ -73,6 +74,7 @@ export async function PUT(req: Request) {
 
     return NextResponse.json(updatedMenu);
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: 'Erreur lors de la modification du menu' }, { status: 400 });
   }
 }
@@ -89,6 +91,7 @@ export async function DELETE(req: Request) {
 
     return NextResponse.json({ message: 'Menu supprimé avec succès' });
   } catch (error) {
+    console.error(error);
     return NextResponse.json({ error: 'Erreur lors de la suppression du menu' }, { status: 400 });
   }
 }
@@ -116,6 +119,7 @@ export async function PATCH(req: Request) {
 
     return NextResponse.json(updatedMenu);
   } catch (error) {
+    console.error(error);
     return NextResponse.json(
       { error: "Erreur lors de l'assignation du responsable" },
       { status: 500 },
