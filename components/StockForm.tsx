@@ -22,7 +22,7 @@ import {
 } from '@/components/ui/select';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
-import { stockTypes } from '@/types/stockTypes';
+import { stockTypes } from '@/types/stock';
 
 const stockSchema = z.object({
   productName: z.string().min(1, 'Le nom du produit est requis'),

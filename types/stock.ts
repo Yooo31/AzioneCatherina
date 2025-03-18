@@ -1,3 +1,14 @@
+export type Stock = {
+  id: string;
+  productName: string;
+  productType: string;
+  quantity: number;
+  updatedAt: string;
+  createdAt: string;
+  updatedBy?: string | null;
+  updatedByUser?: { username: string } | null;
+};
+
 export const stockTypes = [
   { value: 'alcool', label: 'Alcool', color: '#E5A300' },
   { value: 'soft', label: 'Soft', color: '#1100E5' },
