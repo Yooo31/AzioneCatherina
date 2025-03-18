@@ -9,36 +9,81 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  username  String   @unique
-  password  String
-  createdAt DateTime @default(now())
-
+  id            String           @id @default(uuid())
+  username      String           @unique
+  password      String
+  createdAt     DateTime         @default(now())
   stocksUpdated Stock[]
   stockHistory  StockHistory[]
+  menus         Menu[]           @relation("UserMenus")
+  menuComments  MenuCommentary[]
+  Menu          Menu[]
 }
 
 model Stock {
-  id          String   @id @default(uuid())
-  productName String
-  productType String
-  quantity    Int
-  updatedBy   String?  // Optionnel
-  updatedByUser User?  @relation(fields: [updatedBy], references: [id], onDelete: SetNull)
-  updatedAt   DateTime @updatedAt
-  createdAt   DateTime @default(now())
-
-  history StockHistory[]
+  id            String         @id @default(uuid())
+  productName   String
+  productType   String
+  quantity      Int
+  updatedBy     String?
+  updatedAt     DateTime       @updatedAt
+  createdAt     DateTime       @default(now())
+  updatedByUser User?          @relation(fields: [updatedBy], references: [id], onDelete: SetNull)
+  history       StockHistory[]
 }
 
 model StockHistory {
   id             String   @id @default(uuid())
-  stock         Stock    @relation(fields: [stockId], references: [id], onDelete: Cascade)
   stockId        String
   quantityBefore Int
   quantityAfter  Int
-  updatedBy      String?  // Optionnel
-  updatedByUser  User?    @relation(fields: [updatedBy], references: [id], onDelete: SetNull)
+  updatedBy      String?
   updatedAt      DateTime @default(now())
   createdAt      DateTime @default(now())
+  stock          Stock    @relation(fields: [stockId], references: [id], onDelete: Cascade)
+  updatedByUser  User?    @relation(fields: [updatedBy], references: [id], onDelete: SetNull)
+}
+
+model Menu {
+  id           String   @id @default(uuid())
+  title        String
+  starter      String?
+  dish         String?
+  dessert      String?
+  information  String?
+  proposal     String
+  proposalUser User?    @relation(fields: [proposal], references: [id])
+  owner        String?
+  ownerUser    User?    @relation("UserMenus", fields: [owner], references: [id], onDelete: SetNull)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  comments MenuCommentary[]
+}
+
+model MenuCommentary {
+  id        String   @id @default(uuid())
+  menuId    String
+  menu      Menu     @relation(fields: [menuId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comment   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Reservation {
+  id        String   @id
+  dateId    String
+  name      String
+  count     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+}
+
+model ReservationDate {
+  id        String   @id
+  date      DateTime @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime
 }
