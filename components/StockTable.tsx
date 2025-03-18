@@ -13,6 +13,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { stockTypes } from '@/types/stocksType';
+import { getStockType } from '@/types/stocksType';
+import { StockTypeSelect } from '@/components/StockTableSelect';
 
 type Stock = {
   id: string;
@@ -38,7 +40,29 @@ export function StockTable({ userId }: { userId: string }) {
 
   const columns: ColumnDef<Stock>[] = [
     { accessorKey: 'productName', header: 'Nom du produit' },
-    { accessorKey: 'productType', header: 'Type' },
+    {
+      accessorKey: 'productType',
+      header: 'Type',
+      cell: ({ getValue }) => {
+        const typeValue = getValue<string>();
+        const typeInfo = getStockType(typeValue);
+        if (!typeInfo) return typeValue;
+        return (
+          <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <span
+              style={{
+                width: '10px',
+                height: '10px',
+                borderRadius: '50%',
+                backgroundColor: typeInfo.color,
+                display: 'inline-block',
+              }}
+            />
+            <span>{typeInfo.label}</span>
+          </span>
+        );
+      },
+    },
     { accessorKey: 'quantity', header: 'Quantité' },
     {
       accessorKey: 'updatedAt',
@@ -73,7 +97,7 @@ export function StockTable({ userId }: { userId: string }) {
           }}
         />
 
-        <Select
+        <StockTypeSelect
           value={selectedType}
           onValueChange={(value) => {
             setSelectedType(value);
@@ -83,19 +107,7 @@ export function StockTable({ userId }: { userId: string }) {
                 .concat(value && value !== 'Tous' ? [{ id: 'productType', value }] : []),
             );
           }}
-        >
-          <SelectTrigger className="w-48">
-            <SelectValue placeholder="Filtrer par type" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="Tous">Tous</SelectItem>
-            {stockTypes.map((type) => (
-              <SelectItem key={type.value} value={type.value}>
-                {type.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        />
       </div>
 
       <DataTable columns={columns} data={stocks} filters={filters} />

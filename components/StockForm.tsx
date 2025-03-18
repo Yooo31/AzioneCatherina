@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { stockTypes } from '@/types/stocksType';
 import {
   Dialog,
   DialogTrigger,
@@ -14,15 +13,9 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
+import { StockTypeSelect } from '@/components/StockTableSelect';
 
 const stockSchema = z.object({
   productName: z.string().min(1, 'Le nom du produit est requis'),
@@ -94,31 +87,27 @@ export function StockForm({ stock, userId }: StockFormProps) {
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <Input {...register('productName')} placeholder="Nom du produit" />
-          {errors.productName && <p className="text-red-500">{errors.productName.message}</p>}
+          {errors.productName && (
+            <p className="text-red-500">{errors.productName.message}</p>
+          )}
 
-          <Select
+          <StockTypeSelect
+            value={watch('productType')}
             onValueChange={(value) => setValue('productType', value)}
-            defaultValue={watch('productType')}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Type de produit" />
-            </SelectTrigger>
-            <SelectContent>
-              {stockTypes.map((type) => (
-                <SelectItem key={type.value} value={type.value}>
-                  {type.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          {errors.productType && <p className="text-red-500">{errors.productType.message}</p>}
+            placeholder="Type de produit"
+          />
+          {errors.productType && (
+            <p className="text-red-500">{errors.productType.message}</p>
+          )}
 
           <Input
             {...register('quantity', { valueAsNumber: true })}
             type="number"
             placeholder="Quantité"
           />
-          {errors.quantity && <p className="text-red-500">{errors.quantity.message}</p>}
+          {errors.quantity && (
+            <p className="text-red-500">{errors.quantity.message}</p>
+          )}
 
           <Button type="submit" disabled={isSubmitting} className="w-full">
             {isSubmitting ? 'En cours...' : stock ? 'Modifier' : 'Ajouter'}
