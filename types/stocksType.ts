@@ -20,5 +20,4 @@ export const stockTypes = [
   { value: 'equipment', label: 'Équipement', color: '#000000' },
 ];
 
-export const getStockType = (value: string) =>
-  stockTypes.find((type) => type.value === value);
+export const getStockType = (value: string) => stockTypes.find((type) => type.value === value);
