@@ -22,6 +22,7 @@ import {
 } from '@/components/ui/select';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
+import { stockTypes } from '@/types/stock';
 
 const stockSchema = z.object({
   productName: z.string().min(1, 'Le nom du produit est requis'),
@@ -103,9 +104,11 @@ export function StockForm({ stock, userId }: StockFormProps) {
               <SelectValue placeholder="Type de produit" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="Frais">Frais</SelectItem>
-              <SelectItem value="Sec">Sec</SelectItem>
-              <SelectItem value="Surgelé">Surgelé</SelectItem>
+              {stockTypes.map((type) => (
+                <SelectItem key={type.value} value={type.value}>
+                  {type.label}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
           {errors.productType && <p className="text-red-500">{errors.productType.message}</p>}
