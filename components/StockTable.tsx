@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import DataTableSkeleton from '@/components/Skeleton/DataTableSkeleton';
+import { stockTypes } from '@/app/constants/menuType';
 
 type Stock = {
   id: string;
@@ -48,7 +49,11 @@ export function StockTable({ userId }: { userId: string }) {
 
   const columns: ColumnDef<Stock>[] = [
     { accessorKey: 'productName', header: 'Nom du produit' },
-    { accessorKey: 'productType', header: 'Type' },
+    {
+      accessorKey: 'productType',
+      header: 'Type',
+      cell: ({ getValue }) => stockTypes.find((t) => t.value === getValue())?.label || 'Inconnu',
+    },
     { accessorKey: 'quantity', header: 'Quantité' },
     {
       accessorKey: 'updatedAt',
@@ -98,10 +103,11 @@ export function StockTable({ userId }: { userId: string }) {
             <SelectValue placeholder="Filtrer par type" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="Tous">Tous</SelectItem>
-            <SelectItem value="Frais">Frais</SelectItem>
-            <SelectItem value="Sec">Sec</SelectItem>
-            <SelectItem value="Surgelé">Surgelé</SelectItem>
+            {stockTypes.map((type) => (
+              <SelectItem key={type.value} value={type.value}>
+                {type.label}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </div>
