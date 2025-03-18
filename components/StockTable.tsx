@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import DataTableSkeleton from '@/components/Skeleton/DataTableSkeleton';
+import { stockTypes, getStockType } from '@/types/stockTypes';
 
 type Stock = {
   id: string;
@@ -48,7 +49,23 @@ export function StockTable({ userId }: { userId: string }) {
 
   const columns: ColumnDef<Stock>[] = [
     { accessorKey: 'productName', header: 'Nom du produit' },
-    { accessorKey: 'productType', header: 'Type' },
+    {
+      accessorKey: 'productType',
+      header: 'Type',
+      cell: ({ getValue }) => {
+        const stockType = getStockType(getValue<string>());
+        return stockType ? (
+          <span
+            className="px-2 py-1 rounded text-white"
+            style={{ backgroundColor: stockType.color }}
+          >
+            {stockType.label}
+          </span>
+        ) : (
+          'Inconnu'
+        );
+      },
+    },
     { accessorKey: 'quantity', header: 'Quantité' },
     {
       accessorKey: 'updatedAt',
