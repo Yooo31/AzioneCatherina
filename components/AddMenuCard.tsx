@@ -33,7 +33,8 @@ type Props = {
 
 export default function AddMenuCard({ setMenus, menus }: Props) {
   const { data: session } = useSession();
-  const userId = session?.user?.id?.toString() || '';
+  const userId = session?.user?.id?.toString() ?? '';
+  console.log('user : ' + userId);
 
   const [isAdding, setIsAdding] = useState(false);
   const [newMenu, setNewMenu] = useState<MenuForm>({
@@ -63,6 +64,13 @@ export default function AddMenuCard({ setMenus, menus }: Props) {
         }),
       });
 
+      console.log(
+        JSON.stringify({
+          ...newMenu,
+          proposal: userId,
+        }),
+      );
+
       if (!res.ok) {
         const { error } = await res.json();
         toast.error(`Erreur: ${error}`);
@@ -76,6 +84,7 @@ export default function AddMenuCard({ setMenus, menus }: Props) {
 
       toast.success('Menu ajouté avec succès !');
     } catch (error) {
+      console.error('Erreur:', error);
       toast.error("Erreur lors de l'ajout du menu");
     }
   };

@@ -32,7 +32,7 @@ const menuSchema = z.object({
   dish: z.string().optional(),
   dessert: z.string().optional(),
   information: z.string().optional(),
-  proposal: z.string(),
+  proposal: z.string().min(1, "L'auteur est requis"),
   owner: z.string().nullable().optional(),
 });
 
@@ -41,6 +41,7 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
+    console.log(body);
     const validatedData = menuSchema.parse(body);
 
     const newMenu = await prisma.menu.create({
