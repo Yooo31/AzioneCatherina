@@ -12,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { stockTypes } from '@/types/stocksType';
 
 type Stock = {
   id: string;
@@ -79,7 +80,7 @@ export function StockTable({ userId }: { userId: string }) {
             setFilters((prev) =>
               prev
                 .filter((f) => f.id !== 'productType')
-                .concat(value ? [{ id: 'productType', value }] : []),
+                .concat(value && value !== 'Tous' ? [{ id: 'productType', value }] : []),
             );
           }}
         >
@@ -88,9 +89,11 @@ export function StockTable({ userId }: { userId: string }) {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="Tous">Tous</SelectItem>
-            <SelectItem value="Frais">Frais</SelectItem>
-            <SelectItem value="Sec">Sec</SelectItem>
-            <SelectItem value="Surgelé">Surgelé</SelectItem>
+            {stockTypes.map((type) => (
+              <SelectItem key={type.value} value={type.value}>
+                {type.label}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </div>

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { stockTypes } from '@/types/stocksType';
 import {
   Dialog,
   DialogTrigger,
@@ -103,9 +104,11 @@ export function StockForm({ stock, userId }: StockFormProps) {
               <SelectValue placeholder="Type de produit" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="Frais">Frais</SelectItem>
-              <SelectItem value="Sec">Sec</SelectItem>
-              <SelectItem value="Surgelé">Surgelé</SelectItem>
+              {stockTypes.map((type) => (
+                <SelectItem key={type.value} value={type.value}>
+                  {type.label}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
           {errors.productType && <p className="text-red-500">{errors.productType.message}</p>}
