@@ -13,15 +13,9 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
+import { StockTypeSelect } from '@/components/StockTableSelect';
 
 const stockSchema = z.object({
   productName: z.string().min(1, 'Le nom du produit est requis'),
@@ -95,19 +89,11 @@ export function StockForm({ stock, userId }: StockFormProps) {
           <Input {...register('productName')} placeholder="Nom du produit" />
           {errors.productName && <p className="text-red-500">{errors.productName.message}</p>}
 
-          <Select
+          <StockTypeSelect
+            value={watch('productType')}
             onValueChange={(value) => setValue('productType', value)}
-            defaultValue={watch('productType')}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Type de produit" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="Frais">Frais</SelectItem>
-              <SelectItem value="Sec">Sec</SelectItem>
-              <SelectItem value="Surgelé">Surgelé</SelectItem>
-            </SelectContent>
-          </Select>
+            placeholder="Type de produit"
+          />
           {errors.productType && <p className="text-red-500">{errors.productType.message}</p>}
 
           <Input
