@@ -87,27 +87,21 @@ export function StockForm({ stock, userId }: StockFormProps) {
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <Input {...register('productName')} placeholder="Nom du produit" />
-          {errors.productName && (
-            <p className="text-red-500">{errors.productName.message}</p>
-          )}
+          {errors.productName && <p className="text-red-500">{errors.productName.message}</p>}
 
           <StockTypeSelect
             value={watch('productType')}
             onValueChange={(value) => setValue('productType', value)}
             placeholder="Type de produit"
           />
-          {errors.productType && (
-            <p className="text-red-500">{errors.productType.message}</p>
-          )}
+          {errors.productType && <p className="text-red-500">{errors.productType.message}</p>}
 
           <Input
             {...register('quantity', { valueAsNumber: true })}
             type="number"
             placeholder="Quantité"
           />
-          {errors.quantity && (
-            <p className="text-red-500">{errors.quantity.message}</p>
-          )}
+          {errors.quantity && <p className="text-red-500">{errors.quantity.message}</p>}
 
           <Button type="submit" disabled={isSubmitting} className="w-full">
             {isSubmitting ? 'En cours...' : stock ? 'Modifier' : 'Ajouter'}
