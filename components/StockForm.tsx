@@ -17,7 +17,6 @@ export function StockForm({ stock, userId }: StockFormProps) {
     handleSubmit,
     setValue,
     watch,
-    errors,
     isSubmitting,
     onSubmit,
     open,

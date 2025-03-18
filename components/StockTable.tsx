@@ -14,7 +14,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import DataTableSkeleton from '@/components/Skeleton/DataTableSkeleton';
-import { stockTypes } from '@/app/constants/menuType';
+import { stockTypes } from '@/app/constants/stockTypes';
 
 type Stock = {
   id: string;
