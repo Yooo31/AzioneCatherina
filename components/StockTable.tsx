@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { DataTable } from '@/components/ui/data-table';
 import { Input } from '@/components/ui/input';
 import { StockForm } from '@/components/StockForm';
+import { ErrorCard } from '@/components/ErrorCard';
 import {
   Select,
   SelectContent,
@@ -12,6 +13,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import DataTableSkeleton from '@/components/Skeleton/DataTableSkeleton';
+import { stockTypes } from '@/app/constants/stockTypes';
 
 type Stock = {
   id: string;
@@ -27,17 +30,30 @@ export function StockTable({ userId }: { userId: string }) {
   const [filters, setFilters] = useState<ColumnFiltersState>([]);
   const [search, setSearch] = useState('');
   const [selectedType, setSelectedType] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [errorLoading, setErrorLoading] = useState(false);
 
   useEffect(() => {
     fetch('/api/stock')
       .then((res) => res.json())
-      .then((data) => setStocks(data))
-      .catch((error) => console.error('Erreur de chargement', error));
+      .then((data) => {
+        setStocks(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error('Erreur de chargement', error);
+        setLoading(false);
+        setErrorLoading(true);
+      });
   }, []);
 
   const columns: ColumnDef<Stock>[] = [
     { accessorKey: 'productName', header: 'Nom du produit' },
-    { accessorKey: 'productType', header: 'Type' },
+    {
+      accessorKey: 'productType',
+      header: 'Type',
+      cell: ({ getValue }) => stockTypes.find((t) => t.value === getValue())?.label || 'Inconnu',
+    },
     { accessorKey: 'quantity', header: 'Quantité' },
     {
       accessorKey: 'updatedAt',
@@ -87,15 +103,25 @@ export function StockTable({ userId }: { userId: string }) {
             <SelectValue placeholder="Filtrer par type" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="Tous">Tous</SelectItem>
-            <SelectItem value="Frais">Frais</SelectItem>
-            <SelectItem value="Sec">Sec</SelectItem>
-            <SelectItem value="Surgelé">Surgelé</SelectItem>
+            {stockTypes.map((type) => (
+              <SelectItem key={type.value} value={type.value}>
+                {type.label}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </div>
 
-      <DataTable columns={columns} data={stocks} filters={filters} />
+      {loading ? (
+        <DataTableSkeleton />
+      ) : errorLoading ? (
+        <ErrorCard
+          title="Erreur de chargement"
+          description="Une erreur est survenue lors du chargement des stocks"
+        />
+      ) : (
+        <DataTable columns={columns} data={stocks} filters={filters} />
+      )}
     </div>
   );
 }
